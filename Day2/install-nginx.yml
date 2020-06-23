@@ -1,5 +1,28 @@
-- name: Demonstrates installing, configuring and deploying web page into nginx web server
+- name:  Demonstrates installing, configuring and deploying web page into nginx web server
   hosts: all
+  vars:
+    - greeting_msg: DevOps!
+    - provisioner_tool: Docker
+    - conf_mgnt_tool: Ansible 
   tasks:
-    - name: Install nginx web server in Ubuntu
-      apt: name=nginx state=latest update_cache=yes
+  - name: Install nginx web server in Ubuntu
+    apt: name=nginx state=latest update_cache=yes
+
+  - name: Create custom nginx web root folder
+    file: path=/var/html state=directory mode=0777
+
+  - name: Configure nginx web root folder
+    copy: src=default dest=/etc/nginx/sites-available/default
+
+  - name: Retrieve IP Address of containers
+    shell: hostname -i
+    register: output
+
+  - debug: var=output
+
+  - name: Deploy custom html page into nginx web server
+    template: src=index.html.j2 dest=/var/html/index.html
+
+  - name: Restart nginx web server 
+    #service: name=nginx state=restarted
+    command: service nginx restart
