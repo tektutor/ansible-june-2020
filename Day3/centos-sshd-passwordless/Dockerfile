@@ -17,11 +17,9 @@ COPY sudoers /etc/sudoers
 
 RUN mkdir -p /root/.ssh
 COPY authorized_keys /root/.ssh/authorized_keys
-COPY authorized_keys /.ssh/authorized_keys
-COPY authorized_keys /etc/ssh/authorized_keys
 
 # Add sshd running directory.
-RUN mkdir -m 755 /var/run/sshd
+RUN mkdir -m 700 /var/run/sshd
 
 # Add ssh key directory.
 RUN /sbin/service sshd start && /sbin/service sshd stop
