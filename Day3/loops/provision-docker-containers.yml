@@ -10,6 +10,9 @@
 
     - name: Install docker-py SDK 
       shell: pip install docker-py
+
+    - name: Remove all containers
+      shell: docker rm -f $(docker  ps -aq)
     
     - name: Create ubuntu containers
       docker_container:

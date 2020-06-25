@@ -1,0 +1,13 @@
+- name: This playbook will demonstrate the use of dictionary type of variable
+  hosts:  localhost   
+  gather_facts: no
+  vars:
+    - env:
+          JAVA_HOME: /usr/lib/java/jdk18
+          M2_HOME: /usr/share/maven
+          PATH: $JAVA_HOME/bin:$M2_HOME/bin:$PATH
+
+  tasks:
+    - name: Print the dictionary values
+      debug: msg="export {{item.key}}={{item.value}}"
+      with_dict: "{{env}}"

@@ -1,0 +1,29 @@
+- name: Demonstrates use of list variable in ansible playbook
+  hosts: all 
+  vars:
+    - software_tools:
+        - tree
+        - vim
+  tasks:
+   - name: Install software utilities in Ubuntu
+     when: ansible_distribution == "Ubuntu"
+     apt: name="{{item}}" state=latest update_cache=yes
+     with_list: "{{software_tools}}"
+
+   - name: Fix metalink issue in CentOS
+     when: ansible_distribution == "CentOS"
+     copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo
+
+   - name: Install Extra Package for Enterprise Linux (EPEL)  in CentOS
+     when: ansible_distribution == "CentOS"
+     yum: name=epel-release state=latest 
+
+   - name: Install software utilities in CentOS
+     when: ansible_distribution == "CentOS"
+     yum: name="{{item}}" state=latest 
+     with_list: "{{software_tools}}"
+
+   - name: Print all list items
+     debug: var=item
+     with_list: "{{software_tools}}" 
+    
