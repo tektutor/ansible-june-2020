@@ -1,0 +1,14 @@
+---
+# handlers file for apache
+#
+- name: Start the apache web server in CentOS
+  command: service httpd start
+
+- name: Restart the apache web server in CentOS
+  command: service httpd restart
+
+- name: Start the apache web server in Ubuntu
+  command: service apache2 start
+
+- name: Restart the apache web server in Ubuntu
+  command: service apache2 restart
