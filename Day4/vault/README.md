@@ -24,3 +24,20 @@ Regarding ansible-vault
    
 For all the above commands, you will prompted for vault password and you need to manually them. In case ansible.cfg file
 has the vault_password_file property defined then, ansible will not prompt for any password.
+
+Ansible Configuration File
+++++++++++++++++++++++++++
+In case the ansible.cfg file has the inventory property defined then you need not have to supply inventory file
+while doing the below
+
+Ping without ansible.cfg
+ansible -i hosts all -m ping
+
+Ping with ansible.cfg file in place
+ansible all -m ping
+
+Playbook execution without ansible.cfg in place
+ansible-playbook -i hosts playbook.yml
+
+Playbook execution with ansible.cfg in place
+ansible-playbook playbook.yml
