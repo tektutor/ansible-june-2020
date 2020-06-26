@@ -13,7 +13,8 @@
 
     - name: Remove all containers
       shell: docker rm -f $(docker  ps -aq)
-    
+      ignore_erros: yes  
+  
     - name: Create ubuntu containers
       docker_container:
          docker_host: "tcp://localhost:4243"
