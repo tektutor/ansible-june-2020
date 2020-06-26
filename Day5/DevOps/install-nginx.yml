@@ -1,0 +1,10 @@
+- name:  Demonstrates installing, configuring and deploying web page into nginx web server
+  hosts: all
+  vars:
+    - greeting_msg: DevOps!
+    - provisioner_tool: Docker
+    - conf_mgnt_tool: Ansible 
+  tasks:
+  - include: "install-nginx-{{ansible_distribution|lower}}.yml"
+  - include: "configure-nginx-{{ansible_distribution|lower}}.yml"
+  - include: common-nginx-tasks.yml

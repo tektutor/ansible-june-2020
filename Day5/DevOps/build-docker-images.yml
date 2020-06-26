@@ -1,0 +1,40 @@
+- name: This playbook will build ubuntu and centos ansible node images 
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Install Extra Package for Enterprise Linux (EPEL)  
+      yum: name=epel-release state=latest
+
+    - name: Install Python Package Installer
+      yum: name=python-pip state=latest
+
+    - name: Install docker-py SDK 
+      shell: pip install docker-py
+
+    - name: Remove all containers
+      shell: docker rm -f $(docker  ps -aq)
+      ignore_errors: yes  
+
+    - name: Remove tektutor ubuntu ansible node image
+      shell: docker rmi -f tektutor/ansible-ubuntu
+      ignore_errors: yes  
+
+    - name: Remove tektutor centos ansible node image
+      shell: docker rmi -f tektutor/ansible-centos
+      ignore_errors: yes  
+  
+    - name: Build ubuntu ansible node image
+      docker_container:
+         docker_host: "tcp://localhost:4243"
+         image: "tektutor/ansible-ubuntu"
+         state: build 
+         path: .
+         dockerfile: UbuntuDockerfile
+
+    - name: Build centos ansible node image
+      docker_container:
+         docker_host: "tcp://localhost:4243"
+         image: "tektutor/ansible-centos"
+         state: build 
+         path: .
+         dockerfile: CentOSDockerfile 
